@@ -1,11 +1,6 @@
-# Create stripe_integration.py that fetches transactions from Stripe and saves as CSV
+# scripts/stripe_integration.py
 
-import os
-
-scripts_dir = "/mnt/data/LedgerIQ/scripts"
-os.makedirs(scripts_dir, exist_ok=True)
-
-stripe_code = """import stripe
+import stripe
 import pandas as pd
 import os
 from datetime import datetime
@@ -31,13 +26,5 @@ def fetch_stripe_transactions(limit=10):
     df = pd.DataFrame(data)
     output_path = os.path.join("data", "stripe_transactions.csv")
     df.to_csv(output_path, index=False)
-    print(f"✅ Stripe data saved to {output_path}")
+    print(f"Stripe data saved to {output_path}")
     return df
-"""
-
-# Save the script
-stripe_path = os.path.join(scripts_dir, "stripe_integration.py")
-with open(stripe_path, "w") as f:
-    f.write(stripe_code)
-
-stripe_path
