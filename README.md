@@ -34,6 +34,7 @@ LedgerIQ automates the process by:
 | Database     | SQLite, SQLAlchemy          |
 | Interface    | argparse (CLI), tkinter (GUI optional) |
 | Dashboard    | Power BI / Tableau          |
+| Future       | Flask, QuickBooks API, scikit-learn |
 
 ---
 
@@ -86,9 +87,9 @@ All Excel outputs are dashboard-ready. Import into Power BI or Tableau to create
 
 ## 🤖 Future Add-ons
 
-- 🔌 Stripe/QuickBooks API Integration
-- 🌐 Web UI (Flask/FastAPI)
-- 🧠 ML-based Smart Categorization
+- 🔌 **QuickBooks/Stripe API Integration** — auto-sync real-time transactions
+- 🌐 **Flask/FastAPI Web UI** — manage financials from a user-friendly dashboard
+- 🧠 **ML-based Smart Categorization** — train model on past transactions to predict categories
 
 ---
 
