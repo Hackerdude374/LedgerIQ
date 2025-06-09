@@ -37,4 +37,4 @@ generate_charts_path = os.path.join(charts_dir, "generate_charts.py")
 with open(generate_charts_path, "w") as f:
     f.write(generate_charts_code)
 
-generate_charts_path
+
