@@ -11,3 +11,6 @@ pip install fpdf==1.7.2
 python app.py --file data/transactions_sample.csv
 
 python app.py --file data/transactions_sample.csv --email lordbendtner57343@gmail.com
+
+
+python scripts/train_model.py

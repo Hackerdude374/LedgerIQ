@@ -4,6 +4,7 @@ from scripts.load_data import load_transaction_data
 from scripts.clean_and_categorize import clean_and_categorize
 from scripts.export_excel import export_to_excel
 from scripts.generate_pdf import generate_pdf_report
+from scripts.smart_categorizer import ml_categorize
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
@@ -23,7 +24,8 @@ def process():
     file.save(filepath)
 
     df = load_transaction_data(filepath)
-    categorized_df, summary = clean_and_categorize(df)
+    categorized_df = ml_categorize(df)
+    summary = categorized_df.groupby("Category")["Amount"].sum().reset_index()
     export_to_excel(categorized_df, summary)
     generate_pdf_report(summary)
 

@@ -2,3 +2,4 @@ pandas
 fpdf
 matplotlib
 sqlalchemy
+scikit-learn
