@@ -103,3 +103,7 @@ MIT License
 
 Built by a Computer Science grad bridging the gap between **Finance and Automation**.  
 This project demonstrates strong Python skills, real-world problem solving, and tech-business synergy.
+
+![alt text](image.png)
+
+![alt text](image-1.png)

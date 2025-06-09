@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import joblib
 import os
-
+#MACHINE LEARNING CODE
 MODEL_PATH = os.path.join("scripts", "category_model.pkl")
 VECTORIZER_PATH = os.path.join("scripts", "vectorizer.pkl")
 
