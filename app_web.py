@@ -22,7 +22,6 @@ def process():
     filepath = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(filepath)
 
-    # LedgerIQ core logic
     df = load_transaction_data(filepath)
     categorized_df, summary = clean_and_categorize(df)
     export_to_excel(categorized_df, summary)
