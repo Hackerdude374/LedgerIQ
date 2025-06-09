@@ -3,3 +3,5 @@ fpdf
 matplotlib
 sqlalchemy
 scikit-learn
+matplotlib
+seaborn

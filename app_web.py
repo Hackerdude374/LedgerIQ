@@ -5,7 +5,7 @@ from scripts.clean_and_categorize import clean_and_categorize
 from scripts.export_excel import export_to_excel
 from scripts.generate_pdf import generate_pdf_report
 from scripts.smart_categorizer import ml_categorize
-
+from scripts.generate_charts import generate_category_charts
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -28,7 +28,7 @@ def process():
     summary = categorized_df.groupby("Category")["Amount"].sum().reset_index()
     export_to_excel(categorized_df, summary)
     generate_pdf_report(summary)
-
+    generate_category_charts(categorized_df)
     return redirect(url_for('download'))
 
 @app.route('/download')
