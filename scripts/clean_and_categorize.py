@@ -1,23 +1,13 @@
-import pandas as pd
-
-CATEGORY_MAP = {
-    'amazon|target|walmart': 'Shopping',
-    'uber|lyft|taxi': 'Transportation',
-    'starbucks|coffee|cafe': 'Food & Drink',
-    'paypal|stripe|venmo': 'Payment Processing',
-    'salary|freelance|contract': 'Income',
-    'rent|mortgage': 'Housing',
-    'electric|water|gas|utility': 'Utilities'
-}
-
-def categorize_transactions(df):
-    """Categorize transactions using keyword mapping"""
-    def _categorize(description):
-        description = description.lower()
-        for pattern, category in CATEGORY_MAP.items():
-            if any(kw in description for kw in pattern.split('|')):
-                return category
-        return 'Other'
-    
-    df['Category'] = df['Description'].apply(_categorize)
-    return df
+def clean_and_categorize(df):
+    rules = {
+        'amazon': 'Shopping',
+        'uber': 'Transport',
+        'starbucks': 'Food',
+        'paypal': 'Income',
+        'freelance': 'Income'
+    }
+    df['Category'] = df['Description'].str.lower().apply(
+        lambda desc: next((cat for key, cat in rules.items() if key in desc), 'Other')
+    )
+    summary = df.groupby('Category')['Amount'].sum().reset_index()
+    return df, summary

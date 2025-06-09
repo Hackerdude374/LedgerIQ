@@ -1,72 +1,38 @@
 import argparse
-import os
-from datetime import datetime
-from scripts import (
-    load_data,
-    clean_and_categorize,
-    export_excel,
-    generate_pdf,
-    email_report,
-    database_save,
-    powerbi_export,
-    quickbooks_api,
-    smart_categorizer
-)
+from scripts.load_data import load_transaction_data
+from scripts.clean_and_categorize import clean_and_categorize
+from scripts.export_excel import export_to_excel
+from scripts.generate_pdf import generate_pdf_report
+from scripts.email_report import send_email_report
+from scripts.database_save import save_to_database
+from scripts.powerbi_export import prepare_bi_output
 
-# Future imports
-# from scripts.flask_ui import create_app
+# Optional future features
+# from scripts.quickbooks_api import sync_with_quickbooks
+# from scripts.flask_ui import run_web_ui
+# from scripts.smart_categorizer import ml_categorize
 
 def main():
-    parser = argparse.ArgumentParser(description='LedgerIQ Accounting Automation')
-    parser.add_argument('--file', required=True, help='Input CSV/Excel file')
-    parser.add_argument('--email', help='Email to send report')
-    parser.add_argument('--quickbooks', action='store_true', help='Enable QuickBooks integration')
-    parser.add_argument('--ml', action='store_true', help='Enable ML categorization')
+    parser = argparse.ArgumentParser(description="LedgerIQ: Accounting Automation Tool")
+    parser.add_argument('--file', required=True, help='Path to the transactions CSV file')
+    parser.add_argument('--email', help='Send report to this email')
+    # parser.add_argument('--web', action='store_true', help='Run web interface')
     args = parser.parse_args()
 
-    # Create output directories
-    os.makedirs('outputs', exist_ok=True)
-    os.makedirs('database', exist_ok=True)
-
-    # Load data
-    print("🔄 Loading transaction data...")
-    df = load_data.load_transaction_data(args.file)
-    
-    # Clean and categorize
-    print("🧹 Cleaning and categorizing transactions...")
-    if args.ml:
-        df = smart_categorizer.ml_categorize(df)
-    else:
-        df = clean_and_categorize.categorize_transactions(df)
-    
-    # QuickBooks integration
-    if args.quickbooks:
-        print("🔌 Syncing with QuickBooks...")
-        df = quickbooks_api.sync_with_quickbooks(df)
-    
-    # Generate reports
-    print("📊 Generating reports...")
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    excel_path = f"outputs/report_{timestamp}.xlsx"
-    pdf_path = f"outputs/report_{timestamp}.pdf"
-    bi_path = f"outputs/bi_data_{timestamp}.csv"
-    
-    export_excel.generate_excel_report(df, excel_path)
-    generate_pdf.generate_pdf_report(df, pdf_path)
-    powerbi_export.export_for_bi(df, bi_path)
-    
-    # Save to database
-    print("💾 Saving to database...")
-    database_save.save_to_database(df, "database/accounting_data.sqlite")
-    
-    # Email reports
+    df = load_transaction_data(args.file)
+    categorized_df, summary = clean_and_categorize(df)
+    export_to_excel(categorized_df, summary)
+    generate_pdf_report(summary)
     if args.email:
-        print(f"📧 Sending email to {args.email}...")
-        email_report.send_report(args.email, [excel_path, pdf_path])
-    
-    print("✅ Processing complete!")
-    print(f"Excel report: {excel_path}")
-    print(f"PDF report: {pdf_path}")
+        send_email_report(args.email)
+    save_to_database(categorized_df)
+    prepare_bi_output(categorized_df)
+
+    # Future hooks:
+    # sync_with_quickbooks(categorized_df)
+    # ml_categorize(categorized_df)
+    # if args.web:
+    #     run_web_ui()
 
 if __name__ == "__main__":
     main()
