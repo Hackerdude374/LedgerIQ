@@ -1,0 +1,13 @@
+Implementing the web UI (Flask)
+
+Training an ML model for smart categorization
+
+Creating sample dashboards in Power BI or Tableau
+
+pip install -r requirements.txt
+
+pip install fpdf==1.7.2
+
+python app.py --file data/transactions_sample.csv
+
+python app.py --file data/transactions_sample.csv --email lordbendtner57343@gmail.com
