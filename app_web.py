@@ -1,11 +1,12 @@
 from flask import Flask, request, render_template, send_from_directory, redirect, url_for
 import os
 from scripts.load_data import load_transaction_data
-from scripts.clean_and_categorize import clean_and_categorize
+from scripts.smart_categorizer import ml_categorize
 from scripts.export_excel import export_to_excel
 from scripts.generate_pdf import generate_pdf_report
-from scripts.smart_categorizer import ml_categorize
 from scripts.generate_charts import generate_category_charts
+from scripts.stripe_integration import fetch_stripe_transactions
+
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -31,6 +32,16 @@ def process():
     generate_category_charts(categorized_df)
     return redirect(url_for('download'))
 
+@app.route('/stripe')
+def stripe_route():
+    df = fetch_stripe_transactions(limit=5)
+    categorized_df = ml_categorize(df)
+    summary = categorized_df.groupby("Category")["Amount"].sum().reset_index()
+    export_to_excel(categorized_df, summary)
+    generate_pdf_report(summary)
+    generate_category_charts(categorized_df)
+    return redirect(url_for('download'))
+
 @app.route('/download')
 def download():
     return render_template('download.html')
@@ -38,6 +49,10 @@ def download():
 @app.route('/get/<filename>')
 def get_file(filename):
     return send_from_directory('outputs', filename, as_attachment=True)
+
+@app.route('/get/charts/<filename>')
+def get_chart(filename):
+    return send_from_directory('outputs/charts', filename)
 
 if __name__ == "__main__":
     app.run(debug=True)
