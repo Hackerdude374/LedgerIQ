@@ -8,11 +8,17 @@ from scripts.generate_charts import generate_category_charts
 from scripts.stripe_integration import fetch_stripe_transactions
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from scripts.auth import get_user, validate_login, User
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+from models import db, User
 
 
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
+#uncomment this once get keys
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+# app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 login_manager = LoginManager()
 login_manager.init_app(app)
