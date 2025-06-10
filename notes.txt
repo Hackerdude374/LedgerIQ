@@ -16,3 +16,8 @@ python app.py --file data/transactions_sample.csv --email lordbendtner57343@gmai
 python scripts/train_model.py
 
 python app_web.py
+
+python
+>>> from app_web import app, db
+>>> with app.app_context():
+...     db.create_all()

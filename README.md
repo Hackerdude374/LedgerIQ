@@ -1,95 +1,129 @@
-# 📊 LedgerIQ: Automated Accounting Assistant
+# 📊 LedgerIQ: Full-Stack Accounting Automation Platform (v2)
 
-**LedgerIQ** is an intelligent, end-to-end accounting automation tool built in Python. It streamlines the workflow for freelancers, small business owners, and contractors by importing raw financial transaction data (CSV/Excel), categorizing expenses, generating insightful reports (Excel, PDF), emailing summaries, and exporting to dashboards like Power BI or Tableau.
-
----
-
-## 🔍 Real-World Problem
-
-Manual bookkeeping is tedious, error-prone, and time-consuming. Many professionals use spreadsheets to manage income and expenses, which becomes overwhelming during tax season or monthly reviews.
+**LedgerIQ** is an intelligent, multi-user accounting automation system built with Python, Flask, PostgreSQL, and Machine Learning. It streamlines financial workflows for freelancers, SMBs, and analysts through data ingestion, smart categorization, reporting, and dashboard integration (Power BI/Tableau).
 
 ---
 
-## ✅ Solution
+## 🔍 Problem
 
-LedgerIQ automates the process by:
-
-- 📥 Importing financial data from CSV or Excel
-- 📂 Categorizing transactions with keyword-based rules
-- 📊 Creating monthly financial summaries
-- 📤 Exporting Excel + PDF reports
-- 📧 Emailing reports to users
-- 🗃️ Saving records in a local database
-- 📈 Providing output for BI tools like Power BI and Tableau
+Manual accounting is error-prone, slow, and stressful. Tools like Excel require too much upkeep. Many users lack the automation to track trends or report efficiently.
 
 ---
 
-## 🧰 Tech Stack
+## ✅ Solution: LedgerIQ
 
-| Layer        | Tool/Library                |
-|--------------|-----------------------------|
-| Core Logic   | Python, pandas              |
-| Export       | openpyxl, matplotlib, fpdf  |
-| Email        | smtplib, email.message      |
-| Database     | SQLite, SQLAlchemy          |
-| Interface    | argparse (CLI), tkinter (GUI optional) |
-| Dashboard    | Power BI / Tableau          |
-| Future       | Flask, QuickBooks API, scikit-learn |
+Automates your entire workflow:
 
----
-
-## 📁 Features
-
-- ✅ Read and clean CSV/Excel transactions
-- ✅ Auto-categorize expenses and income
-- ✅ Group by category, vendor, or month
-- ✅ Generate Excel spreadsheets with charts
-- ✅ Generate PDF summary reports
-- ✅ Email reports to specified users
-- ✅ Store processed data in SQLite database
-- ✅ BI-ready export for dashboards
+- 📥 Upload transactions from Excel/CSV
+- 🔁 Sync real-time Stripe payments
+- 🔐 User login/signup, per-user data
+- 🧠 ML-based smart categorization
+- 📊 Reports in Excel and PDF
+- 📈 Visual charts (matplotlib/seaborn)
+- 🧾 Export to Power BI `.pbix` and Tableau `.twbx`
+- ☁️ Designed for cloud deployment via Render
 
 ---
 
-## 🚀 Getting Started
+## 🧱 Tech Stack
 
-### 🔧 Prerequisites
+| Layer        | Tech/Tools                              |
+|--------------|------------------------------------------|
+| Backend      | Python, Flask, Flask-Login               |
+| DB           | PostgreSQL (via SQLAlchemy)              |
+| ML           | scikit-learn, TF-IDF, Naive Bayes        |
+| Auth         | Flask-Login, bcrypt                      |
+| Frontend     | HTML, Bootstrap (planned), Jinja2        |
+| Charts       | Matplotlib, Seaborn                      |
+| Reports      | openpyxl, FPDF                           |
+| API Sync     | Stripe API, (QuickBooks: coming soon)    |
+| BI Export    | Power BI `.pbix`, Tableau `.twbx`        |
+| Deployment   | Render (planned)                         |
+
+---
+
+## 🚀 Features (By Phase)
+
+### ✅ Core Upload & Processing
+- Upload Excel/CSV → ML categorization → reports
+
+### ✅ Stripe Sync
+- Auto-fetch transactions using your Stripe API key
+
+### ✅ Smart Categorization
+- Trains on descriptions using TF-IDF + Naive Bayes
+- You can improve accuracy by retraining
+
+### ✅ PDF + Excel Output
+- `monthly_report.pdf`, `monthly_report.xlsx`, and visual charts
+
+### ✅ Power BI & Tableau Support
+- Generates BI-ready `.csv`, `.pbix`, and `.twbx` output
+
+### ✅ Charts with Python
+- Pie/Bar charts grouped by category using seaborn
+
+### 🔐 User Authentication (in progress)
+- Email/password login/signup
+- Per-user upload history
+- Protected routes
+
+### ☁️ Cloud Deployment (Render)
+- Will use PostgreSQL cloud DB
+- Auto-deployed Flask app for live uploads/reporting
+
+---
+
+## 📦 Setup Instructions
 
 ```bash
-pip install pandas openpyxl fpdf matplotlib sqlalchemy
-```
+# Install dependencies
+pip install -r requirements.txt
 
-### ▶️ Run the Tool
+# Train the ML model
+python scripts/train_model.py
 
-```bash
+# Run CLI version
 python app.py --file data/transactions_sample.csv
+
+# Run Flask Web UI
+python app_web.py
 ```
 
 ---
 
-## 📸 Sample Output
+## 🧠 ML Model Details
 
-- ✅ `monthly_report.xlsx` (Totals per category)
-- ✅ `monthly_report.pdf` (Pie chart + summary)
-- ✅ `accounting_data.sqlite` (Stores all records)
-
----
-
-## 📈 Power BI / Tableau Integration
-
-All Excel outputs are dashboard-ready. Import into Power BI or Tableau to create live graphs of:
-
-- Category-wise monthly expenses
-- Vendor spending trends
-- Net income flow by period
+- `train_model.py`: Trains the category classifier
+- Uses TF-IDF vectorizer + Naive Bayes classifier
+- Saves `vectorizer.pkl` and `category_model.pkl`
 
 ---
 
-## 🤖 Future Add-ons
+## 📈 Example Output
 
-- 🔌 **QuickBooks/Stripe API Integration** — auto-sync real-time transactions
-- 🌐 **Flask/FastAPI Web UI** — manage financials from a user-friendly dashboard
-- 🧠 **ML-based Smart Categorization** — train model on past transactions to predict categories
+- **PDF Report** with category totals
+- **Excel Report** with full transactions + summary
+- **Charts**: `bar_chart.png`, `pie_chart.png`
+- **Power BI/ Tableau Ready**: `bi_output.csv`
+
+---
+
+## 🔐 Auth Example
+
+Signup → Login → Upload → Get custom reports linked to your account (coming soon)
+
+---
+
+## 💡 Future Roadmap
+
+- ✅ Multi-user PostgreSQL integration
+- ✅ Power BI / Tableau native exports
+- ✅ Stripe sync API
+- ⏳ QuickBooks API integration
+- ⏳ Scheduled email reports
+- ⏳ OAuth Login
+- ⏳ Admin dashboard
 
 ---
 
@@ -101,9 +135,7 @@ MIT License
 
 ## 🧠 Author
 
-Built by a Computer Science grad bridging the gap between **Finance and Automation**.  
-This project demonstrates strong Python skills, real-world problem solving, and tech-business synergy.
+Built by a CS student integrating **Finance + Automation**  
+For real-world productivity, learning, and standout projects.
 
-![alt text](image.png)
-
-![alt text](image-1.png)
+---
