@@ -9,13 +9,14 @@ from scripts.stripe_integration import fetch_stripe_transactions
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from scripts.auth import get_user, validate_login, User
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
+
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
 @app.route('/')
 def index():
