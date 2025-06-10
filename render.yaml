@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ledgeriq-app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app_web.py
+    envVars:
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
